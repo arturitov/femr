@@ -82,7 +82,8 @@ var createAndEditUsers = {
 
 var createUsers = {
     elements: {
-        password: $("#password")
+        password: $("#password"),
+        cpassword: $("#cpassword")
     },
     validateRolesAndPassword: function () {
         var pass = true;
@@ -115,6 +116,20 @@ var createUsers = {
         else{
             createUsers.elements.password.next(".errors").text("");
         }
+
+        var cpassword = $.trim(document.forms["createForm"]["cpassword"].value);
+        var cpasswordErrors = "";
+        if (cpassword !== password) {
+            cpasswordErrors = "passwords do not match";
+            pass = false;
+        }
+
+        if (pass === false) {
+            if (cpasswordErrors != "") {
+                createUsers.elements.cpassword.next(".errors").text(cpasswordErrors);
+            }
+        }
+
 
         //validate roles
         var isARoleChecked = false;
