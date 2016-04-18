@@ -11,6 +11,11 @@ $(document).ready(function () {
         manageUsers.bindUserToggleButtons();
     }
 
+    $("#bySet").click(function() {
+       location.href = "http://" + urlPieces[2] + "/admin/users?page=1&by=" + $('#by').val();
+    });
+
+    console.log(urlPieces[2]);
 
 });
 

@@ -16,7 +16,8 @@
 
     <a href="@UsersController.createGet()" class="fButton fOtherButton fAdminButton userBtns"><span class="glyphicon glyphicon-plus-sign"></span>
         Add User</a>
-
+    <br><br>
+    <input type="text" id="by" placeholder="Show # of entries"> <button id="bySet" class="btn btn-default">Show</button>
     <table id="userTable">
         <thead>
             <tr>
@@ -66,6 +67,9 @@
         }
         </tbody>
     </table>
+    <a href="/admin/users?page=@viewModelGet.getPrevPage()&by=@viewModelGet.getPaginationAmount()" >Prev</a>
+    <a href="/admin/users?page=@viewModelGet.getNextPage()&by=@viewModelGet.getPaginationAmount()" >Next</a>
+
     <div id="editDialog" title="Edit User">
         <div id="editPartial">
             @*load partial view for editing a user via admin.js*@

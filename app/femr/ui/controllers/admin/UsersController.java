@@ -43,6 +43,12 @@ import play.mvc.Result;
 import play.mvc.Security;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Arrays;
+import java.util.Set;
+import play.Logger;
+
+
 
 @Security.Authenticated(FEMRAuthenticated.class)
 @AllowedRoles({Roles.ADMINISTRATOR, Roles.SUPERUSER})
@@ -68,15 +74,40 @@ public class UsersController extends Controller {
 
     //Manage all users
     public Result manageGet() {
+
+        final Set<Map.Entry<String,String[]>> entries = request().queryString().entrySet();
+        int page = 1;
+        int paginationAmount = 10;
+        for (Map.Entry<String,String[]> entry : entries) {
+            final String key = entry.getKey();
+            final int value = Integer.parseInt(entry.getValue()[0]);
+            if(key.equals("page")){
+                page = value;
+            }
+            if (key.equals("by")) {
+                paginationAmount = value;
+            }
+        }
+
         CurrentUser currentUser = sessionService.retrieveCurrentUserSession();
 
         ServiceResponse<List<UserItem>> userServiceResponse = userService.retrieveAllUsers();
         if (userServiceResponse.hasErrors()) {
             throw new RuntimeException();
         }
-
+        List<UserItem> users = new ArrayList<UserItem>();
+        for (int i =0; i < paginationAmount; i++){
+            try {
+                users.add(userServiceResponse.getResponseObject().get(((page - 1) * paginationAmount) + i));
+            }
+            catch (Exception e){
+                break;
+            }
+        }
         ManageViewModelGet viewModelGet = new ManageViewModelGet();
-        viewModelGet.setUsers(userServiceResponse.getResponseObject());
+        viewModelGet.setUsers(users);
+        viewModelGet.setPage(page);
+        viewModelGet.setPaginationAmount(paginationAmount);
 
         return ok(manage.render(currentUser, viewModelGet));
     }
