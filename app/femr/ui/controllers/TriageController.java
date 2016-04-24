@@ -13,15 +13,13 @@ import femr.ui.helpers.security.AllowedRoles;
 import femr.ui.helpers.security.FEMRAuthenticated;
 import femr.ui.models.triage.*;
 import femr.ui.views.html.triage.index;
+import femr.util.calculations.dateUtils;
 import femr.util.stringhelpers.StringUtils;
 import org.joda.time.DateTime;
 import play.data.Form;
 import play.mvc.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Security.Authenticated(FEMRAuthenticated.class)
@@ -279,6 +277,34 @@ public class TriageController extends Controller {
         return settingsResponse.getResponseObject().isDiabetesPrompt();
     }
 
+    private void checkAgeClassificationError(Integer months, String ageClassification) {
+        if (ageClassification.equals("infant")) {
+            if (months >= 24) {
+                throw new RuntimeException("Your baby is too old.");
+            }
+        }
+        else if (ageClassification.equals("child")) {
+            if (months < 24 || months >= 156) {
+                throw new RuntimeException("We're all children at heart.");
+            }
+        }
+        else if (ageClassification.equals("teen")) {
+            if (months < 156 || months >= 216) {
+                throw new RuntimeException("You should probably grow up.");
+            }
+        }
+        else if (ageClassification.equals("adult")) {
+            if (months < 216 || months >= 780) {
+                throw new RuntimeException("Being an adult is hard.");
+            }
+        }
+        else if (ageClassification.equals("elder")) {
+            if (months < 780) {
+                throw new RuntimeException("You still got time.");
+            }
+        }
+    }
+
     private PatientItem populatePatientItem(IndexViewModelPost viewModelPost, CurrentUser currentUser) {
         PatientItem patient = new PatientItem();
         patient.setUserId(currentUser.getId());
@@ -286,6 +312,12 @@ public class TriageController extends Controller {
         patient.setLastName(viewModelPost.getLastName());
         if (viewModelPost.getAge() != null) {
             patient.setBirth(viewModelPost.getAge());
+
+        }
+        if (viewModelPost.getAgeClassification() != null) {
+            // Throw runtime error if invalid age classification.
+            checkAgeClassificationError(dateUtils.getMonthsInteger(viewModelPost.getAge()), viewModelPost.getAgeClassification());
+            patient.setAgeClassification(viewModelPost.getAgeClassification());
         }
         patient.setSex(viewModelPost.getSex());
         patient.setAddress(viewModelPost.getAddress());

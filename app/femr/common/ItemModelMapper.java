@@ -207,6 +207,9 @@ public class ItemModelMapper implements IItemModelMapper {
         if (weight != null)
             patientItem.setWeight(weight);
 
+        if (ageClassification != null)
+            patientItem.setAgeClassification(ageClassification);
+
         return patientItem;
     }
 

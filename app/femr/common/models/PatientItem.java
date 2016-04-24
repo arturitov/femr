@@ -46,10 +46,20 @@ public class PatientItem {
     //added for femr-136 - dual unit display
     private Float weightDual;
 
+    private String ageClassification;
+
     public PatientItem(){
         //default empty values
         this.Id = 0;
         this.pathToPhoto = "";
+    }
+
+    public String getAgeClassification() {
+        return this.ageClassification;
+    }
+
+    public void setAgeClassification(String ageClassification) {
+        this.ageClassification = ageClassification;
     }
 
     public int getId() {

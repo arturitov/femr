@@ -8,7 +8,7 @@ public class ManageViewModelGet {
     private int paginationAmount;
     private List<UserItem> users;
 
-    public int getPrevPage(){
+    public int getPrevPage() {
         if (page == 1){
             return page;
         }

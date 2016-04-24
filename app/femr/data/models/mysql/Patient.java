@@ -55,6 +55,8 @@ public class Patient implements IPatient {
     private DateTime isDeleted;
     @Column(name = "deleted_by_user_id", unique = false, nullable = true)
     private Integer deletedByUserId;
+    @Column(name = "ageClassification", unique = false, nullable = true)
+    private String ageClassification;
 
 
     @Override
@@ -178,7 +180,15 @@ public class Patient implements IPatient {
     }
   
     
-    
+    @Override
+    public String getAgeClassification() {
+        return this.ageClassification;
+    }
+
+    @Override
+    public void setAgeClassification(String ageClassification) {
+        this.ageClassification = ageClassification;
+    }
     
     
 

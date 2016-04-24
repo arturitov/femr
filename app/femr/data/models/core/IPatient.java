@@ -74,5 +74,9 @@ public interface IPatient {
 
     void setDeletedByUserId(Integer userId) ;
 
+    String getAgeClassification();
+
+    void setAgeClassification(String ageClassification);
+
     
 }
