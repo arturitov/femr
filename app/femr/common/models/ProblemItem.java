@@ -20,6 +20,7 @@ package femr.common.models;
 
 public class ProblemItem {
     private String name;
+    private Integer id;
 
     public String getName() {
         return name;
@@ -28,4 +29,11 @@ public class ProblemItem {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setID(Integer id) { this.id = id;}
+
+    public Integer getID() {
+        return id;
+    }
+
 }

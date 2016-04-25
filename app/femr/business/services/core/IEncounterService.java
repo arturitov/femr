@@ -117,6 +117,8 @@ public interface IEncounterService {
      * @return updated patient encounter item and/or errors if they exist, or null if errors
      */
     ServiceResponse<PatientEncounterItem> screenPatientForDiabetes(int encounterId, int userId);
+
+    ServiceResponse<List<ProblemItem>> updateProblemItems(int encounterId, Integer id,String name);
 }
 
 

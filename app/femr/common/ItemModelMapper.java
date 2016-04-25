@@ -336,7 +336,7 @@ public class ItemModelMapper implements IItemModelMapper {
      * {@inheritDoc}
      */
     @Override
-    public ProblemItem createProblemItem(String name) {
+    public ProblemItem createProblemItem(String name,Integer id) {
 
         if (StringUtils.isNullOrWhiteSpace(name)) {
 
@@ -346,7 +346,7 @@ public class ItemModelMapper implements IItemModelMapper {
         ProblemItem problemItem = new ProblemItem();
 
         problemItem.setName(name);
-
+        problemItem.setID(id);
         return problemItem;
     }
 

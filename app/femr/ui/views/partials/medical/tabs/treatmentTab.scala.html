@@ -15,9 +15,9 @@
         <label for="problem">Diagnosis</label>
         <div class="row">
             <div class="col-xs-10 col-sm-10 col-md-10 problemWrap">
-                @for(problem <- problems) {
+                @for(index <- 0 until problems.size) {
                     <div class="problem">
-                        <input type="text" class="form-control input-sm oldProblems" value="@problem.getName" readonly/>
+                        <input type="text" class="form-control input-sm oldProblems" value="@problems(index).getName" name="oldProblems[@index].name" />
                     </div>
                 }
                 <div class="problem">

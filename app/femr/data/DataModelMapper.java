@@ -21,6 +21,7 @@ package femr.data;
 import com.avaje.ebean.Ebean;
 import com.google.inject.Inject;
 import femr.business.services.core.IEncounterService;
+import femr.common.models.ProblemItem;
 import femr.data.models.core.*;
 import femr.util.calculations.dateUtils;
 import femr.util.stringhelpers.StringUtils;
@@ -430,6 +431,17 @@ public class DataModelMapper implements IDataModelMapper{
         return patientEncounterTabField;
     }
 
+//    @Override
+//    public IPatientEncounterTabField updatePatientEncounterTabField(IPatientEncounterTabField patientEncounterTabField, int userId, String value) {
+//        if (patientEncounterTabField == null) {
+//            return null;
+//        }
+//
+//        patientEncounterTabField.setTabField(Ebean.getReference(tabFieldProvider.get().getClass(), tabFieldId));
+//        patientEncounterTabField.setTabFieldValue(value);
+//        return patientEncounterTabField;
+//    }
+
     /**
      * {@inheritDoc}
      */
@@ -619,4 +631,5 @@ public class DataModelMapper implements IDataModelMapper{
         patientEncounter.setDiabetesScreener(Ebean.getReference(userProvider.get().getClass(), diabetesScreenerId));
         return patientEncounter;
     }
+
 }

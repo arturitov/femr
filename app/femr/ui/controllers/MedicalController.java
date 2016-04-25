@@ -276,6 +276,16 @@ public class MedicalController extends Controller {
         PatientEncounterItem patientEncounterItem = patientEncounterServiceResponse.getResponseObject();
         patientEncounterItem = encounterService.checkPatientInToMedical(patientEncounterItem.getId(), currentUserSession.getId()).getResponseObject();
 
+
+        PatientEncounterItem patientEncounter;
+        ServiceResponse<PatientEncounterItem> patientEncounterItemServiceResponse = searchService.retrieveRecentPatientEncounterItemByPatientId(patientId);
+        if (patientEncounterItemServiceResponse.hasErrors()) {
+
+            throw new RuntimeException();
+        }
+        patientEncounter = patientEncounterItemServiceResponse.getResponseObject();
+
+
         //get and save problems
         List<String> problemList = new ArrayList<>();
         for (ProblemItem pi : viewModelPost.getProblems()) {
@@ -286,6 +296,38 @@ public class MedicalController extends Controller {
         if (problemList.size() > 0) {
             encounterService.createProblems(problemList, patientEncounterItem.getId(), currentUserSession.getId());
         }
+
+
+        List<ProblemItem> oldProblemList = new ArrayList<>();
+        ServiceResponse<List<ProblemItem>> problemItemServiceResponse = encounterService.retrieveProblemItems(patientEncounter.getId());
+        if (problemItemServiceResponse.hasErrors()) {
+
+            throw new RuntimeException();
+        }
+        List<ProblemItem> currentProblemList = problemItemServiceResponse.getResponseObject();
+        for (ProblemItem pi : viewModelPost.getOldProblems()) {
+            if (StringUtils.isNotNullOrWhiteSpace(pi.getName())) {
+                oldProblemList.add(pi);
+            }
+        }
+      //  List<ProblemItem> updateProblemList = new List<ProblemItem>();
+        for (int i = 0; i < oldProblemList.size(); i++) {
+            if (!oldProblemList.get(i).getName().equals(currentProblemList.get(i).getName())) {
+                System.out.println("TO BE UPDATED: " + oldProblemList.get(i).getName() + " " + currentProblemList.get(i).getID());
+                encounterService.updateProblemItems(patientEncounterItem.getId(),currentProblemList.get(i).getID(),oldProblemList.get(i).getName());
+            }
+        }
+
+        //if (problemItemServiceResponse.hasErrors()) {
+
+//            throw new RuntimeException();
+  //      }
+
+    //    List<ProblemItem> responseObject = problemItemServiceResponse.getResponseObject();
+
+      //  for (ProblemItem pi : responseObject) {
+           // System.out.println(pi.getID() + ": " + pi.getName());
+        //}
 
         //get tab fields that do not have a related chief complaint and put them into a nice map
         Map<String, String> tabFieldItemsWithNoRelatedChiefComplaint = new HashMap<>();

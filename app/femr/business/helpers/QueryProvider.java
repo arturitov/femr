@@ -122,6 +122,8 @@ public class QueryProvider {
         return Ebean.find(TabField.class);
     }
 
+    public static Query<PatientEncounterTabField> updatePatient() {return  Ebean.find(PatientEncounterTabField.class);}
+
     public static Query<TabFieldType> getTabFieldTypeQuery() {
         return Ebean.find(TabFieldType.class);
     }

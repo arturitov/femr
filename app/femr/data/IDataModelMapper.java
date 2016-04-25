@@ -19,6 +19,7 @@
 package femr.data;
 
 import femr.data.models.core.*;
+import femr.data.models.mysql.PatientEncounterTabField;
 import org.joda.time.DateTime;
 import java.util.Date;
 import java.util.List;
@@ -172,6 +173,7 @@ public interface IDataModelMapper {
      */
     IPatientEncounterTabField createPatientEncounterTabField(int tabFieldId, int userId, String value, int encounterId, DateTime dateTaken, Integer chiefComplaintId);
 
+    //IPatientEncounterTabField updatePatientEncounterTabField(PatientEncounterTabField patientEncounterTabField, int userId, String value);
     /**
      * Generate and provide an implementation of IPatientEncounterVital
      *

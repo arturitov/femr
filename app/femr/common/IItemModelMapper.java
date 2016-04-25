@@ -151,7 +151,7 @@ public interface IItemModelMapper {
      * @param name the name of the problem, not null
      * @return a new ProblemItem or null if processing fails
      */
-    ProblemItem createProblemItem(String name);
+    ProblemItem createProblemItem(String name,Integer id);
 
     /**
      * Generate and provide an instance of SettingItem.

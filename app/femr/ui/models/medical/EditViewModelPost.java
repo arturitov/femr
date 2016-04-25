@@ -30,6 +30,7 @@ public class EditViewModelPost {
     private List<TabFieldItem> tabFieldItems;
     private List<PrescriptionItem> prescriptions;
     private List<ProblemItem> problems;
+    private List<ProblemItem> oldProblems;
 
     //Photo stuff
     private List<Boolean> deleteRequested;
@@ -95,5 +96,11 @@ public class EditViewModelPost {
 
     public void setProblems(List<ProblemItem> problems) {
         this.problems = problems;
+    }
+
+    public List<ProblemItem> getOldProblems() { return oldProblems; }
+
+    public void setOldProblems(List<ProblemItem> oldProblems) {
+        this.oldProblems = oldProblems;
     }
 }
