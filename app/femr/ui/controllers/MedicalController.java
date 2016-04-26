@@ -310,24 +310,13 @@ public class MedicalController extends Controller {
                 oldProblemList.add(pi);
             }
         }
-      //  List<ProblemItem> updateProblemList = new List<ProblemItem>();
         for (int i = 0; i < oldProblemList.size(); i++) {
             if (!oldProblemList.get(i).getName().equals(currentProblemList.get(i).getName())) {
                 System.out.println("TO BE UPDATED: " + oldProblemList.get(i).getName() + " " + currentProblemList.get(i).getID());
-                encounterService.updateProblemItems(patientEncounterItem.getId(),currentProblemList.get(i).getID(),oldProblemList.get(i).getName());
+                encounterService.updateProblemItems(patientEncounterItem.getId(),currentProblemList.get(i).getID(),oldProblemList.get(i).getName(),currentUserSession.getId());
             }
         }
 
-        //if (problemItemServiceResponse.hasErrors()) {
-
-//            throw new RuntimeException();
-  //      }
-
-    //    List<ProblemItem> responseObject = problemItemServiceResponse.getResponseObject();
-
-      //  for (ProblemItem pi : responseObject) {
-           // System.out.println(pi.getID() + ": " + pi.getName());
-        //}
 
         //get tab fields that do not have a related chief complaint and put them into a nice map
         Map<String, String> tabFieldItemsWithNoRelatedChiefComplaint = new HashMap<>();

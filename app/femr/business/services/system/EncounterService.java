@@ -26,6 +26,7 @@ import femr.business.helpers.QueryProvider;
 import femr.business.services.core.IEncounterService;
 import femr.business.services.core.IMissionTripService;
 import femr.common.IItemModelMapper;
+import femr.common.dtos.CurrentUser;
 import femr.common.dtos.ServiceResponse;
 import femr.common.models.*;
 import femr.data.IDataModelMapper;
@@ -45,6 +46,7 @@ public class EncounterService implements IEncounterService {
     private final IRepository<IPatientAgeClassification> patientAgeClassificationRepository;
     private final IRepository<IPatientEncounter> patientEncounterRepository;
     private final IRepository<IPatientEncounterTabField> patientEncounterTabFieldRepository;
+    private final IRepository<IPatientEncounterTabFieldsUpdate> patientEncounterTabFieldsUpdateRepository;
     private final IRepository<ITabField> tabFieldRepository;
     private final IRepository<IUser> userRepository;
     private final IDataModelMapper dataModelMapper;
@@ -59,6 +61,7 @@ public class EncounterService implements IEncounterService {
                             IRepository<ITabField> tabFieldRepository,
                             IRepository<IUser> userRepository,
                             IDataModelMapper dataModelMapper,
+                            IRepository<IPatientEncounterTabFieldsUpdate> patientEncounterTabFieldsUpdateRepository,
                             @Named("identified") IItemModelMapper itemModelMapper) {
 
         this.missionTripService = missionTripService;
@@ -70,6 +73,7 @@ public class EncounterService implements IEncounterService {
         this.userRepository = userRepository;
         this.dataModelMapper = dataModelMapper;
         this.itemModelMapper = itemModelMapper;
+        this.patientEncounterTabFieldsUpdateRepository = patientEncounterTabFieldsUpdateRepository;
     }
 
     /**
@@ -120,6 +124,8 @@ public class EncounterService implements IEncounterService {
 
         return response;
     }
+
+    //public void addUpdateHistory()
 
     /**
      * {@inheritDoc}
@@ -245,7 +251,7 @@ public class EncounterService implements IEncounterService {
         return response;
     }
 
-    public ServiceResponse<List<ProblemItem>> updateProblemItems(int encounterId, Integer id,String name) {
+    public ServiceResponse<List<ProblemItem>> updateProblemItems(int encounterId, Integer id,String name,Integer user_id) {
         ServiceResponse<List<ProblemItem>> response = new ServiceResponse<>();
         List<ProblemItem> problemItems = new ArrayList<>();
         List<ProblemItem> problemItemsID = new ArrayList<>();
@@ -260,6 +266,7 @@ public class EncounterService implements IEncounterService {
 
         try {
             List<? extends IPatientEncounterTabField> patientEncounterTreatmentFields = patientEncounterTabFieldRepository.find(query);
+            DateTime dateTaken = dateUtils.getCurrentDateTime();
             if (patientEncounterTreatmentFields == null) {
                 response.addError("", "bad query");
             } else {
@@ -267,9 +274,16 @@ public class EncounterService implements IEncounterService {
                     if (petf.getTabField() != null)
 
                    System.out.println(petf.getId());
+                    String previousDiagnosis = petf.getTabFieldValue();
                     petf.setTabFieldValue(name);
                     System.out.println(petf.getTabFieldValue());
                     patientEncounterTabFieldRepository.update(petf);
+                    // ADD HISTORY
+
+                    IPatientEncounterTabFieldsUpdate history =  dataModelMapper.createPatientTabFieldUpdate(petf.getId(), user_id, previousDiagnosis, name,dateTaken);
+                    System.out.println(history.getPatientEncounterTabFieldsId() + " " + history.getNewDiagnosis());
+                    System.out.println(patientEncounterTabFieldsUpdateRepository.updateHistory(history).getPatientEncounterTabFieldsId());
+
                 }
                 response.setResponseObject(problemItems);
             }
@@ -279,6 +293,7 @@ public class EncounterService implements IEncounterService {
         return response;
     }
 
+//        try {
 //        try {
 //            ITabField tabField = tabFieldRepository.findOne(query);
 //            List<IPatientEncounterTabField> patientEncounterTabFields = new ArrayList<>();

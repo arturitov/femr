@@ -25,6 +25,7 @@ import femr.data.daos.IRepository;
 import femr.data.daos.Repository;
 import femr.data.models.core.research.IResearchEncounter;
 import femr.data.models.core.research.IResearchEncounterVital;
+import femr.data.models.core.IPatientEncounterTabFieldsUpdate;
 import femr.util.dependencyinjection.providers.*;
 
 public class DataLayerModule extends AbstractModule {
@@ -51,6 +52,7 @@ public class DataLayerModule extends AbstractModule {
         bind(IPatientEncounter.class).toProvider(PatientEncounterProvider.class);
         bind(IPatientEncounterPhoto.class).toProvider(PatientEncounterPhotoProvider.class);
         bind(IPatientEncounterTabField.class).toProvider(PatientEncounterTabFieldProvider.class);
+        bind(IPatientEncounterTabFieldsUpdate.class).toProvider(PatientEncounterTabFieldsUpdateProvider.class);
         bind(IPatientEncounterVital.class).toProvider(PatientEncounterVitalProvider.class);
         bind(IPatientPrescription.class).toProvider(PatientPrescriptionProvider.class);
         bind(IPatientPrescriptionReplacement.class).toProvider(PatientPrescriptionReplacementProvider.class);
@@ -88,6 +90,7 @@ public class DataLayerModule extends AbstractModule {
         bind(new TypeLiteral<IRepository<IPatientEncounter>>() {}).to(new TypeLiteral<Repository<IPatientEncounter>>() {});
         bind(new TypeLiteral<IRepository<IPatientEncounterPhoto>>() {}).to(new TypeLiteral<Repository<IPatientEncounterPhoto>>() {});
         bind(new TypeLiteral<IRepository<IPatientEncounterTabField>>(){}).to(new TypeLiteral<Repository<IPatientEncounterTabField>>(){});
+        bind(new TypeLiteral<IRepository<IPatientEncounterTabFieldsUpdate>>(){}).to(new TypeLiteral<Repository<IPatientEncounterTabFieldsUpdate>>(){});
         bind(new TypeLiteral<IRepository<IPatientEncounterVital>>() {}).to(new TypeLiteral<Repository<IPatientEncounterVital>>() {});
         bind(new TypeLiteral<IRepository<IPatientPrescription>>() {}).to(new TypeLiteral<Repository<IPatientPrescription>>() {});
         bind(new TypeLiteral<IRepository<IPatientPrescriptionReplacement>>() {}).to(new TypeLiteral<Repository<IPatientPrescriptionReplacement>>() {});

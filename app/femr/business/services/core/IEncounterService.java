@@ -118,7 +118,7 @@ public interface IEncounterService {
      */
     ServiceResponse<PatientEncounterItem> screenPatientForDiabetes(int encounterId, int userId);
 
-    ServiceResponse<List<ProblemItem>> updateProblemItems(int encounterId, Integer id,String name);
+    ServiceResponse<List<ProblemItem>> updateProblemItems(int encounterId, Integer id,String name,Integer user_id);
 }
 
 

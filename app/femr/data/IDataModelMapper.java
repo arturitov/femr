@@ -40,9 +40,9 @@ public interface IDataModelMapper {
      * Creates a login attempt
      *
      * @param usernameValue the value that the device/person submitted to the server as a username, not null
-     * @param isSuccessful whether or not the login attempt was successful, not null
-     * @param ipAddress the ip address of the device trying to log in - in binary form, not null
-     * @param userId id of the user account that is trying to be logged into, may be null
+     * @param isSuccessful  whether or not the login attempt was successful, not null
+     * @param ipAddress     the ip address of the device trying to log in - in binary form, not null
+     * @param userId        id of the user account that is trying to be logged into, may be null
      * @return a new login attempt
      */
     ILoginAttempt createLoginAttempt(String usernameValue, boolean isSuccessful, byte[] ipAddress, Integer userId);
@@ -58,9 +58,9 @@ public interface IDataModelMapper {
     /**
      * Generate and provide an implementation of IMedication for use in adding to inventory.
      *
-     * @param name                          name of the medication, not null
-     * @param medicationGenericStrengths    generic drugs, may be null
-     * @param conceptMedicationForm         the medications form e.g. cream/chewable/pill, may be null
+     * @param name                       name of the medication, not null
+     * @param medicationGenericStrengths generic drugs, may be null
+     * @param conceptMedicationForm      the medications form e.g. cream/chewable/pill, may be null
      * @return an implementation of IMedication or null if processing fails
      */
     IMedication createMedication(String name, List<IMedicationGenericStrength> medicationGenericStrengths, IConceptMedicationForm conceptMedicationForm);
@@ -68,9 +68,9 @@ public interface IDataModelMapper {
     /**
      * Generate and provide an implementation of IMedicationActiveDrug.
      *
-     * @param value                    strength of the drug, not null
-     * @param isDenominator            is the drug a denominator, not null
-     * @param activeDrugUnitId         id of the unit for measurement of the drug, not null
+     * @param value             strength of the drug, not null
+     * @param isDenominator     is the drug a denominator, not null
+     * @param activeDrugUnitId  id of the unit for measurement of the drug, not null
      * @param medicationGeneric the drug name, may be null
      * @return an implementation of IMedicationActiveDrug
      */
@@ -96,9 +96,9 @@ public interface IDataModelMapper {
      * Generate and provide an implementation of IMedicationInventory.
      *
      * @param quantityCurrent current available amount of medication, not null
-     * @param quantityTotal amount of medication initially in the inventory, not null
-     * @param medicationId id of the medication, not null
-     * @param missionTripId id of the mission trip, not null
+     * @param quantityTotal   amount of medication initially in the inventory, not null
+     * @param medicationId    id of the medication, not null
+     * @param missionTripId   id of the mission trip, not null
      * @return an implementation of IMedicationInventory or null if processing fails
      */
     IMedicationInventory createMedicationInventory(int quantityCurrent, int quantityTotal, int medicationId, int missionTripId);
@@ -174,6 +174,7 @@ public interface IDataModelMapper {
     IPatientEncounterTabField createPatientEncounterTabField(int tabFieldId, int userId, String value, int encounterId, DateTime dateTaken, Integer chiefComplaintId);
 
     //IPatientEncounterTabField updatePatientEncounterTabField(PatientEncounterTabField patientEncounterTabField, int userId, String value);
+
     /**
      * Generate and provide an implementation of IPatientEncounterVital
      *
@@ -189,12 +190,12 @@ public interface IDataModelMapper {
     /**
      * Generate and provide an implementation of IPatientPrescription
      *
-     * @param amount        amount of medication dispensed, not null
-     * @param medicationId    the id of the dispensed medication, not null
-     * @param medicationAdministrationId  ID of Administration type of the prescription
-     * @param userId        id of the user creating the prescription, not null
-     * @param encounterId   encounter id of the prescription, not null
-     * @param dateDispensed   date and time the patient prescription dispensed to the patient, can be null
+     * @param amount                     amount of medication dispensed, not null
+     * @param medicationId               the id of the dispensed medication, not null
+     * @param medicationAdministrationId ID of Administration type of the prescription
+     * @param userId                     id of the user creating the prescription, not null
+     * @param encounterId                encounter id of the prescription, not null
+     * @param dateDispensed              date and time the patient prescription dispensed to the patient, can be null
      * @return an implementation of IPatientPrescription or null if processing fails, not null
      */
     IPatientPrescription createPatientPrescription(int amount, int medicationId, Integer medicationAdministrationId, int userId, int encounterId, DateTime dateDispensed, boolean isCounseled);
@@ -202,9 +203,9 @@ public interface IDataModelMapper {
     /**
      * Creates a patient prescription replacement based on the ID of the prescriptions.
      *
-     * @param originalId id of the original prescription, not null
+     * @param originalId    id of the original prescription, not null
      * @param replacementId id of the prescription that is replacing the original prescription, not null
-     * @param reasonId id of the reason for replacement, not null
+     * @param reasonId      id of the reason for replacement, not null
      * @return a new patient prescription replacement item.
      */
     IPatientPrescriptionReplacement createPatientPrescriptionReplacement(int originalId, int replacementId, int reasonId);
@@ -277,14 +278,17 @@ public interface IDataModelMapper {
      * @return a User reference object
      */
     IUser createUser(int userId);
-    
+
     /**
      * Uses the user provider to update a patient encounter with diabetes screening information
      *
-     * @param patientEncounter the patient encounter to be updated, not null
+     * @param patientEncounter   the patient encounter to be updated, not null
      * @param diabetesScreenerId the id of the physician that screened the patient for diabetes, not null
      * @return a PatientEncounter ready to be updated with the date of screening and the physician that did the screening
      */
     IPatientEncounter updatePatientEncounterWithDiabetesScreening(IPatientEncounter patientEncounter, int diabetesScreenerId);
+
+    IPatientEncounterTabFieldsUpdate createPatientTabFieldUpdate(int patientEncounterTabFieldId, int userId, String old_name, String new_name, DateTime dateTaken);
+
 
 }

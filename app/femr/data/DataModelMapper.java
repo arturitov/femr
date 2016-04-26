@@ -56,6 +56,7 @@ public class DataModelMapper implements IDataModelMapper{
     private final Provider<IPatientEncounter> patientEncounterProvider;
     private final Provider<IEncounterService> patientEncounterTabField;
     private final Provider<IPatientEncounterTabField> patientEncounterTabFieldProvider;
+    private final Provider<IPatientEncounterTabFieldsUpdate> patientEncounterTabFieldsUpdateProvider;
     private final Provider<IPatientEncounterVital> patientEncounterVitalProvider;
     private final Provider<IPatientPrescription> patientPrescriptionProvider;
     private final Provider<IPatientPrescriptionReplacement> patientPrescriptionReplacementProvider;
@@ -100,7 +101,8 @@ public class DataModelMapper implements IDataModelMapper{
                            Provider<ITabFieldType> tabFieldTypeProvider,
                            Provider<ITab> tabProvider,
                            Provider<IUser> userProvider,
-                           Provider<IVital> vitalProvider) {
+                           Provider<IVital> vitalProvider,
+                           Provider<IPatientEncounterTabFieldsUpdate> patientEncounterTabFieldsUpdateProvider) {
 
         this.chiefComplaintProvider = chiefComplaintProvider;
         this.loginAttemptProvider = loginAttemptProvider;
@@ -133,6 +135,7 @@ public class DataModelMapper implements IDataModelMapper{
         this.tabProvider = tabProvider;
         this.userProvider = userProvider;
         this.vitalProvider = vitalProvider;
+        this.patientEncounterTabFieldsUpdateProvider = patientEncounterTabFieldsUpdateProvider;
     }
 
     /**
@@ -441,6 +444,25 @@ public class DataModelMapper implements IDataModelMapper{
 //        patientEncounterTabField.setTabFieldValue(value);
 //        return patientEncounterTabField;
 //    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IPatientEncounterTabFieldsUpdate createPatientTabFieldUpdate(int patientEncounterTabFieldId, int userId, String old_name, String new_name, DateTime dateTaken) {
+
+
+        IPatientEncounterTabFieldsUpdate patientEncounterTabFieldUpdate = patientEncounterTabFieldsUpdateProvider.get();
+
+        patientEncounterTabFieldUpdate.setDateUpdated(dateTaken);
+        patientEncounterTabFieldUpdate.setUserId(userId);
+        patientEncounterTabFieldUpdate.setNewDiagnosis(new_name);
+        patientEncounterTabFieldUpdate.setPreviousDiagnosis(old_name);
+        patientEncounterTabFieldUpdate.setPatientEncounterTabFieldsId(patientEncounterTabFieldId);
+
+
+        return patientEncounterTabFieldUpdate;
+    }
+
 
     /**
      * {@inheritDoc}

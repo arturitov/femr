@@ -78,4 +78,10 @@ public class Repository<T> implements IRepository<T> {
         Ebean.save(entity);
         return entity;
     }
+
+    @Override
+    public T updateHistory(T entity) {
+        Ebean.save(entity);
+        return entity;
+    }
 }
